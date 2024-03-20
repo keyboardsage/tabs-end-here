@@ -1,5 +1,5 @@
 tabCount = 0;
-maxTabs = 2159;
+maxTabs = 0;
 
 /**
  * Plays audio files from extension service workers
@@ -23,16 +23,19 @@ async function createOffscreen() {
 
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({}, (tabs) => {
-        // prevent creating a new tab when maximum is exceeded
-        // and also update the tab count
+        // prevent creating a new tab when the maximum is exceeded
         if (tabs.length > maxTabs)
         {
+            // update the tab count
             tabCount = tabs.length;
             tabCount--;
 
+            // remove the latest tab
             chrome.tabs.remove(tab.id);
-            
             playSound('tab_prevent.wav');
+
+            // set maxTabs, so this new low number is the maxTabs
+            maxTabs = tabCount;
         }
         else
         {

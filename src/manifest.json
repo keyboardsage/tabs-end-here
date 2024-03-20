@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Tabs End Here",
-    "version": "0.1",
+    "version": "0.2.1",
     "description": "Prevents opening a new tab once the maximum is reached.",
     "background": {
         "service_worker": "background.js"

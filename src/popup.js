@@ -1,4 +1,3 @@
-// popup.js
 function formatNumberWithLeadingSpaces(number, targetLength) {
     let numberString = String(number);
     let paddingSize = targetLength - numberString.length;
