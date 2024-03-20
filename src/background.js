@@ -26,13 +26,12 @@ chrome.tabs.onCreated.addListener((tab) => {
         // prevent creating a new tab when the maximum is exceeded
         if (tabs.length > maxTabs)
         {
-            // update the tab count
-            tabCount = tabs.length;
-            tabCount--;
-
             // remove the latest tab
             chrome.tabs.remove(tab.id);
             playSound('tab_prevent.wav');
+            
+            // update the tab count
+            tabCount = tabs.length;
 
             // set maxTabs, so this new low number is the maxTabs
             maxTabs = tabCount;
@@ -41,6 +40,13 @@ chrome.tabs.onCreated.addListener((tab) => {
         {
             tabCount = tabs.length;
         }
+    });
+});
+
+chrome.tabs.onRemoved.addListener((tab) => {
+    chrome.tabs.query({}, (tabs) => {
+        tabCount = tabs.length;
+        maxTabs = tabCount;
     });
 });
 
