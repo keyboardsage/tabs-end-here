@@ -24,20 +24,27 @@ async function createOffscreen() {
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({}, (tabs) => {
         // prevent creating a new tab when maximum is exceeded
-        if (tabs.length > maxTabs) {
-            chrome.tabs.remove(tab.id);
+        // and also update the tab count
+        if (tabs.length > maxTabs)
+        {
+            tabCount = tabs.length;
+            tabCount--;
 
+            chrome.tabs.remove(tab.id);
+            
             playSound('tab_prevent.wav');
         }
-
-        tabCount = tabs.length;
+        else
+        {
+            tabCount = tabs.length;
+        }
     });
 });
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.action == "getTabCount") {
-      sendResponse({number: tabCount});
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "getTabCount") {
+        sendResponse({number: tabCount});
+    } else if (request.action === "getMaxTabs") {
+        sendResponse({number: maxTabs});
     }
-  }
-);
+});
