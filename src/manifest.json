@@ -2,15 +2,21 @@
     "manifest_version": 3,
     "name": "Tabs End Here",
     "version": "0.1",
-    "description": "Prevent opening new tabs unless one is closed first.",
+    "description": "Prevents opening a new tab once the maximum is reached.",
     "background": {
         "service_worker": "background.js"
     },
     "permissions": [
-        "tabs"
+        "tabs", "storage", "offscreen"
     ],
     "action": {
         "default_popup": "popup.html",
         "default_icon": "icon.png"
-    }
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["tab_prevent.wav", "popup.js"],
+            "matches": ["<all_urls>"]
+        }
+    ]
 }
